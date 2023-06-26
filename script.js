@@ -1,6 +1,7 @@
 const body = document.querySelector("body");
+const API_KEY = 'DEMO_KEY';
 let link =
-  "https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY";
+  `https://api.nasa.gov/planetary/apod?api_key=${API_KEY}`;
 
 function addMedia(data) {
   let title = document.querySelector("#title");
@@ -26,8 +27,8 @@ function addEventListener() {
   const dateSelector = document.querySelector("#date");
   const apod = document.querySelector("#apod")
   dateSelector.addEventListener("input", function () {
-    /* API keyt nem szervezünk a kódba Livi még visszaszól .env hidden file-ként nem kerül pusholásra */
-    let newLink = `https://api.nasa.gov/planetary/apod?api_key=B1nXvQXGTgRR0TXbTGA5phaPKs4PS0yo9JVJFh7L&date=${this.value}`;
+    
+    let newLink = `https://api.nasa.gov/planetary/apod?api_key=${API_KEY}&date=${this.value}`;
     apod.remove()
     callFetch(newLink);
   });
@@ -70,6 +71,7 @@ function callFetch(link) {
   fetch(link)
     .then((response) => response.json())
     .then((data) => {
+      console.log(data)
       handlePictureData(data);
       addMedia(data);
       addEventListener();
@@ -91,7 +93,7 @@ function getTodayDate(i) {
 }
 
 function insertGallery () {
-  const link = "https://api.nasa.gov/planetary/apod?api_key=B1nXvQXGTgRR0TXbTGA5phaPKs4PS0yo9JVJFh7L&date="
+  const link = `https://api.nasa.gov/planetary/apod?api_key=${API_KEY}&date=`
   const main = document.querySelector('main')
   main.insertAdjacentHTML('beforeend', `
   <div id="gallery-wrapper">
@@ -147,6 +149,5 @@ addFrame();
 callFetch(link);
 insertGallery();
 setTimeout(createModal, 1000);
-
 
 
